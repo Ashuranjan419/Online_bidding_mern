@@ -19,11 +19,6 @@ const placeBid = asyncHandler(async (req, res) => {
     throw new Error("Invalid product or bidding is closed");
   }
 
-  /*  if (price < product.minprice) {
-    res.status(400);
-    throw new Error("Your bid must be equal to or higher than the minimum bidding price");
-  } */
-
   const existingUserBid = await BiddingProduct.findOne({ user: userId, product: productId });
 
   if (existingUserBid) {
@@ -68,13 +63,6 @@ const sellProduct = asyncHandler(async (req, res) => {
   if (!product) {
     return res.status(404).json({ error: "Product not found" });
   }
-
-  //   /* const currentTime = new Date();
-  //   const tenMinutesAgo = new Date(currentTime - 2 * 60 * 1000); // 10 minutes ago
-
-  //     if (!product.isSoldout || product.updatedAt < tenMinutesAgo || product.createdAt < tenMinutesAgo) {
-  //     return res.status(400).json({ error: "Product cannot be sold at this time" });
-  //   } */
 
   // Check if the user is authorized to sell the product
   if (product.user.toString() !== userId) {
